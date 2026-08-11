@@ -22,8 +22,8 @@ BOUNDARY_FILTER_VALUE = CITY_NAME
 # ---------------------------------------------------------------------------
 # Temporal range
 # ---------------------------------------------------------------------------
-START_YEAR = 2015
-END_YEAR = 2020  # Kept short for the proof-of-concept; widen once validated.
+START_YEAR = 2016  # was 2015 — PM2.5 (CAMS) data doesn't exist before June 2016
+END_YEAR = 2020
 
 # ---------------------------------------------------------------------------
 # Data sources (Earth Engine asset IDs)
