@@ -48,6 +48,33 @@ def load_stack(path):
     return lst, pm25, landcover
 
 
+# Names from the official GLC-FCS30D legend (only the classes present in Pune).
+LAND_COVER_NAMES = {
+    10: "Rainfed cropland",
+    11: "Herbaceous cropland",
+    20: "Irrigated cropland",
+    52: "Closed evergreen broadleaved forest",
+    62: "Closed deciduous broadleaved forest",
+    72: "Closed evergreen needle-leaved forest",
+    182: "Wetland (class 182)",
+    183: "Wetland (class 183)",
+    190: "Built-up (impervious surface)",
+    210: "Water body",
+}
+
+
+def load_geo(path):
+    """Returns (west_lon, north_lat, pixel_width, pixel_height) from the GeoTIFF tags, or None."""
+    try:
+        with tifffile.TiffFile(path) as tf:
+            meta = tf.geotiff_metadata or {}
+        sx, sy = meta["ModelPixelScale"][:2]
+        i, j, _, x, y, _ = meta["ModelTiepoint"][:6]
+        return x - i * sx, y + j * sy, sx, sy
+    except Exception:
+        return None
+
+
 def _starts(size):
     starts = list(range(0, size - PATCH + 1, STRIDE))
     if starts[-1] != size - PATCH:  # make sure the last rows/columns are covered too
